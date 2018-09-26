@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="project1.css"/>
+<html>
+	<head>
+		<title>To-Do List</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, intial-scale=1"/>
+
+	</head>
+	<body>
+		<ul id="nav">
+			<a href="../CISC375Project1/project1.html"><li>To-Do List</li></a>
+			<a href="../CISC375Project1/project1photos.html"><li>Photo Gallery</li></a>
+			<a href="../CISC375Project1/index.html"><li>About</li></a>
+		</ul>
+
+		<p id="title">To-Do List</p>
+
+		<p id="deleteTitle">Click on a task cell to delete the task</p>
+		<p id="deleteTitle">Save your data each time with the "Add Task" button</p>
+
+		<div align="center" id="inputs">
+			<input type='text' id='task' value="New task"/>
+			<input type='datetime-local' id='duedate' value="dd/mm/yyyy --:--">
+
+			<select id='category'>
+				<option value="conditional">Choose category</option>
+				<option value='Chores'>Chores</option>
+				<option value='Homework'>Homework</option>
+				<option value='Errands'>Errands</option>
+				<option value='Favors'>Favors</option>
+			</select>
+
+			<button id="addTask">Add Task</button>
+		</div>
+
+		<div align="center" id="sorts">
+			<select id="sortcat">
+				<option value="sortConditional">Choose what to sort by</option>
+				<option value="sortDue">Due Date</option>
+				<option value="sortCategory">Category</option>
+				<option value="sortDone">Done</option>
+				<option value="sortAdded">Date Added</option>
+			</select>
+
+			<button id="sort">Sort</button>
+		</div>
+
+		<table id="todolist">
+			<tr>
+				<th>Task</th>
+				<th>Due Date</th>
+				<th>Category</th>
+				<th>Done</th>
+				<th>Date Added</th>
+			</tr>
+			<tr id="defaultRow">
+				<td onclick="deleteRow('defaultRow')">Clean room</td>
+				<td>2018-09-12T15:05</td>
+				<td>Chores</td>
+				<td><input type="checkbox" id="checked" />&nbsp;</td>
+				<td>9/29/2018 12:00</td>
+			</tr>
+		</table>
+
+		<script>
+			document.getElementById("addTask").addEventListener("click",createRow);
+			document.getElementById("sort").addEventListener("click", sortTable);
+
+			function createRow(){
+				if(document.getElementById("category").value == "conditional"){
+					alert("Please choose a category");
+					return;
+				}
+				var now = new Date().toLocaleDateString();
+				var time = new Date();
+				var todotable = document.getElementById("todolist");
+				var row = todotable.insertRow(todotable.rows.length);
+
+				var cell0 = row.insertCell(0);
+				var cell1 = row.insertCell(1);
+				var cell2 = row.insertCell(2);
+				var cell3 = row.insertCell(3);
+				var cell4 = row.insertCell(4);
+
+				var cell0Text = document.createTextNode(document.getElementById("task").value);
+				cell0.setAttribute("onclick","deleteRow(this);" + onclick);
+				var cell1Text = document.createTextNode(document.getElementById("duedate").value);
+				var cell2Text = document.createTextNode(document.getElementById("category").value);
+				var cell3check = document.createElement("INPUT");
+				cell3check.setAttribute("type","checkbox");
+				cell3check.setAttribute("id","checked");
+				var cell4date = document.createTextNode(now+" "+time.getHours()+":"+time.getMinutes());
+
+				cell0.appendChild(cell0Text);
+				cell1.appendChild(cell1Text);
+				cell2.appendChild(cell2Text);
+				cell3.appendChild(cell3check);
+				cell4.appendChild(cell4date);
+			}
+
+			document.getElementById("addTask").addEventListener("click",setNewRowColor);
+
+			function sortTable(){
+				var table;
+				var rows;
+				var switching;
+				var i;
+				var x;
+				var y;
+				var z;
+				var shouldSwitch;
+				var dropdownCat;
+
+				dropdownCat = getSelectedSort();
+				console.log(dropdownCat);
+
+				if(dropdownCat == "sortDue"){ //conditional to find which column was chosen to sort by
+					z = 1;
+				}else if(dropdownCat == "sortCategory"){
+					z = 2;
+				}else if(dropdownCat == "sortDone"){
+					z = 3;
+				}else if(dropdownCat == "sortAdded"){
+					z = 4;
+				}
+				console.log(z);
+				table = document.getElementById("todolist");
+				switching = true;
+
+				if(z == 3){ //sort column 3 if "Done" checkbox column was chosen
+					while(switching){ //sorting algorithm borrowed from W3Schools table sorting algorithm
+					switching = false;
+					rows = table.rows;
+					for(i=1; i<(rows.length-1); i++){
+						shouldSwitch = false;
+						x = rows[i].getElementsByTagName("TD")[z];
+						y = rows[i+1].getElementsByTagName("TD")[z];
+
+						console.log(x);
+						console.log(y);
+
+
+						console.log(x.querySelector("input[type=checkbox]").checked);
+						console.log(y.querySelector("input[type=checkbox]").checked);
+
+						if(x.querySelector("input[type=checkbox]").checked > y.querySelector("input[type=checkbox]").checked){
+							shouldSwitch = true;
+							break;
+							}
+						}
+						if(shouldSwitch){
+							rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+							switching = true;
+						}
+					}
+				}else{ //sort column 1, 2, or 4 if they were chosen instead
+					while(switching){ //sorting algorithm borrowed from W3Schools table sorting algorithm
+						switching = false;
+						rows = table.rows;
+						for(i=1; i<(rows.length-1); i++){
+							shouldSwitch = false;
+							x = rows[i].getElementsByTagName("TD")[z];
+							y = rows[i+1].getElementsByTagName("TD")[z];
+
+							if(x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()){
+								shouldSwitch = true;
+								break;
+							}
+						}
+						if(shouldSwitch){
+							rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+							switching = true;
+						}
+					}
+				}
+			}
+
+			function getSelectedSort(){
+				var selectedValue = document.getElementById("sortcat").value;
+				return selectedValue;
+			}
+
+			function getSelectedCategory(){
+				var selectedValue = document.getElementById("category").value;
+				return selectedValue;
+			}
+
+			function setNewRowColor(){
+				var dropdownCat;
+				var z;
+				var i;
+				var table = document.getElementById("todolist");
+				var rows = table.getElementsByTagName("tr");
+				dropdownCat = getSelectedCategory();
+
+				if(dropdownCat == "Chores"){
+					rows[rows.length-1].style.backgroundColor = "#fc4646";
+				}else if(dropdownCat == "Homework"){
+					rows[rows.length-1].style.backgroundColor = "yellow";
+				}else if(dropdownCat == "Errands"){
+					rows[rows.length-1].style.backgroundColor = "#46fc76";
+				}else if(dropdownCat == "Favors"){
+					rows[rows.length-1].style.backgroundColor = "cyan";
+				}
+			}
+
+			function deleteRow(rowid){
+				if(confirm("Are you sure you'd like to delete this task from your To-Do List?")){
+					var row = document.getElementById(rowid);
+    				row.parentNode.removeChild(row);
+				}else{}
+			}
+		</script>
+	</body>
+</html>

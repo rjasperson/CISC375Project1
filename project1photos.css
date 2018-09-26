@@ -1,0 +1,69 @@
+table, th, td{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#addTask{
+	width: 70px;
+	height: 40px;
+}
+
+
+body{
+	background-color: #c9d5e8;
+}
+
+ul li{
+	border: 2px solid grey;
+	padding: 2px;
+	border-radius: 5px;
+	background-color: white;
+	display: inline-block;
+	font-weight: bold;
+}
+
+#inputs{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 15px;
+}
+
+head{
+	font: 15px "Arial",san-serif;
+}
+
+body{
+	font: 15px "Arial",san-serif;
+}
+
+#title{
+	text-align: center;
+	font-size: 200%;
+}
+
+#sorts{
+	padding: 15px;
+}
+
+.photogallery{
+	text-align: center;
+	margin: 20px;
+	padding: 10px;
+}
+
+.photogallery img{
+	width: 230px;
+	padding: 5px;
+	transition: .5s;
+}
+
+.photogallery:hover img{
+	opacity: .6;
+	transform:scale(.90);
+}
+
+.photogallery img:hover{
+	transform: scale(1.1);
+	opacity: 1;
+}
+

@@ -1,0 +1,59 @@
+table, th, td{
+	border: 1px solid blue;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#addTask{
+	width: 70px;
+	height: 40px;
+}
+
+body{
+	background-color: #c9d5e8;
+}
+
+ul li{
+	border: 2px solid grey;
+	padding: 2px;
+	border-radius: 5px;
+	background-color: white;
+	display: inline-block;
+	font-weight: bold;
+}
+
+#inputs{
+	margin-left: auto;
+	margin-right: auto;
+	padding: 15px;
+}
+
+head{
+	font: 15px "Arial",san-serif;
+}
+
+body{
+	font: 15px "Arial",san-serif;
+}
+
+#title{
+	text-align: center;
+	font-size: 200%;
+}
+
+#sorts{
+	padding: 15px;
+}
+
+#bio{
+	border: 1px solid blue;
+	font: 20px "Arial", san-serif;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 10px;
+	margin: 10px;
+}
+
+#photo{
+	text-align: center;
+}
